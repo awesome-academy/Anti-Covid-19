@@ -6,6 +6,6 @@ interface CovidDataSource {
     }
 
     interface Remote {
-
+        fun getCovidInformation()
     }
 }
