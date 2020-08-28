@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Anti Covid-19</string>
+    <string name="error_parse_json">Type not supported</string>
+    <string name="error_get_data_api">First param should not be null, or you forgot passing one</string>
 </resources>
