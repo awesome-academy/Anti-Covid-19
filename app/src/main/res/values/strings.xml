@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">Anti Covid-19</string>
+
     <string name="error_parse_json">Type not supported</string>
     <string name="error_get_data_api">First param should not be null, or you forgot passing one</string>
+
+    <string name="radio_button_vietnamese">Vietnamese</string>
+    <string name="radio_button_worlds">Worlds</string>
+
+    <string name="text_all_you_need">All you need</string>
+    <string name="text_is_stay_at_home">is stay at home</string>
+    <string name="text_case_update">Case Update</string>
+    <string name="text_see_detail">See Detail</string>
+    <string name="text_infected">Infected</string>
+    <string name="text_death">Death</string>
+    <string name="text_recovered">Recovered</string>
+
+    <string name="title_statistics">Statistics</string>
+    <string name="title_home">Home</string>
+    <string name="title_news">News</string>
 </resources>
