@@ -6,7 +6,7 @@ import com.sunasterisk.anticovid_19.data.resource.local.dao.InformationDao
 
 class CovidLocalDataSource(private val informationDao: InformationDao) : CovidDataSource.Local {
 
-    override fun getLastInformation(): Information = informationDao.getLastInformation()
+    override fun getLastInformation(): Information? = informationDao.getLastInformation()
 
     override fun addInformation(information: Information) {
         informationDao.addInformation(information)

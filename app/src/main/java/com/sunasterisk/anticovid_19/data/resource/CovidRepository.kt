@@ -13,7 +13,7 @@ class CovidRepository private constructor(
         remote.getCountryInformation(callback)
     }
 
-    override fun getLastInformation(): Information = local.getLastInformation()
+    override fun getLastInformation(): Information? = local.getLastInformation()
 
     override fun addInformation(information: Information) {
         local.addInformation(information)
