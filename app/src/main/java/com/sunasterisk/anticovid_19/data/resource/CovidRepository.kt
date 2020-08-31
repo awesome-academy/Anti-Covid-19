@@ -1,6 +1,7 @@
 package com.sunasterisk.anticovid_19.data.resource
 
 import com.sunasterisk.anticovid_19.data.model.Country
+import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.data.model.Information
 import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallBack
 
@@ -11,6 +12,10 @@ class CovidRepository private constructor(
 
     override fun getCountryInformation(callback: OnDataLoadCallBack<List<Country>>) {
         remote.getCountryInformation(callback)
+    }
+
+    override fun getGlobalInformation(callback: OnDataLoadCallBack<Global>) {
+        remote.getGlobalInformation(callback)
     }
 
     override fun getLastInformation(): Information? = local.getLastInformation()
