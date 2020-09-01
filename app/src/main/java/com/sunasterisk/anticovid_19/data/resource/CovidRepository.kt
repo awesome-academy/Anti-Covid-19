@@ -3,18 +3,18 @@ package com.sunasterisk.anticovid_19.data.resource
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.data.model.Information
-import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallBack
+import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallback
 
 class CovidRepository private constructor(
     private val remote: CovidDataSource.Remote,
     private val local: CovidDataSource.Local
 ): CovidDataSource.Local, CovidDataSource.Remote {
 
-    override fun getCountryInformation(callback: OnDataLoadCallBack<List<Country>>) {
+    override fun getCountryInformation(callback: OnDataLoadCallback<List<Country>>) {
         remote.getCountryInformation(callback)
     }
 
-    override fun getGlobalInformation(callback: OnDataLoadCallBack<Global>) {
+    override fun getGlobalInformation(callback: OnDataLoadCallback<Global>) {
         remote.getGlobalInformation(callback)
     }
 
@@ -26,6 +26,12 @@ class CovidRepository private constructor(
 
     override fun updateInformation(information: Information) {
         local.updateInformation(information)
+    }
+
+    override fun getNotification(): Boolean = local.getNotification()
+
+    override fun updateNotification(isAllowNotification: Boolean) {
+        local.updateNotification(isAllowNotification)
     }
 
     companion object {

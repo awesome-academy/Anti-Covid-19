@@ -1,7 +1,7 @@
 package com.sunasterisk.anticovid_19.ui.statistic
 
-import android.annotation.SuppressLint
 import android.view.View
+import android.widget.RadioGroup
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Country
@@ -12,6 +12,7 @@ import com.sunasterisk.anticovid_19.data.resource.local.dao.InformationDaoImpl
 import com.sunasterisk.anticovid_19.data.resource.local.db.MyDatabase
 import com.sunasterisk.anticovid_19.data.resource.remote.CovidRemoteDataSource
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
+import com.sunasterisk.anticovid_19.utils.SharedPreferencesHelper
 import com.sunasterisk.anticovid_19.utils.TimeConst.ID_TIMEZONE
 import com.sunasterisk.anticovid_19.utils.TimeConst.INPUT_TIME_FORMAT
 import com.sunasterisk.anticovid_19.utils.TimeConst.OUTPUT_TIME_FORMAT
@@ -21,9 +22,12 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StatisticsFragment : BaseFragment(), StatisticsContract.View {
+class StatisticsFragment : BaseFragment(),
+    StatisticsContract.View,
+    RadioGroup.OnCheckedChangeListener {
 
     private var presenter: StatisticsPresenter? = null
+    private var isAllowNotification = false
     private lateinit var myDialog: LoadingDialog
 
     override val layoutResource: Int
@@ -32,7 +36,12 @@ class StatisticsFragment : BaseFragment(), StatisticsContract.View {
     override fun initData() {
         initPresenter()
         initDialog()
-        presenter?.start()
+        if (radioButtonVietnamese.isChecked) presenter?.start()
+    }
+
+    override fun initActions() {
+        radioGroupToggleInformation.setOnCheckedChangeListener(this)
+        imageButtonNotification.setOnClickListener { allowDisplayNotification() }
     }
 
     override fun showInformationInWord(global: Global) = with(global) {
@@ -60,15 +69,39 @@ class StatisticsFragment : BaseFragment(), StatisticsContract.View {
         context?.showToast(error)
     }
 
+    override fun showMessage(message: String) {
+        context?.showToast(message)
+    }
+
+    override fun showNotification(isAllow: Boolean) {
+        isAllowNotification = isAllow
+        if (isAllowNotification) {
+            imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_white_24dp)
+        } else {
+            imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_off_white_24dp)
+        }
+    }
+
     override fun showLoading() = myDialog.show()
 
     override fun hideLoading() = myDialog.hide()
 
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        when (checkedId) {
+            R.id.radioButtonVietnamese -> presenter?.getInformationInVietnNam()
+            R.id.radioButtonWorld -> presenter?.getInformationInWorld()
+        }
+    }
+
     private fun initPresenter() {
         val context = context ?: return
         val myDatabase = MyDatabase.getInstance(context)
+        val preferences = SharedPreferencesHelper.getInstance(context)
         val local =
-            CovidLocalDataSource.getInstance(InformationDaoImpl.getInstance(myDatabase))
+            CovidLocalDataSource.getInstance(
+                InformationDaoImpl.getInstance(myDatabase),
+                preferences
+            )
         val remote = CovidRemoteDataSource()
         val repository = CovidRepository.getInstance(remote, local)
         presenter = StatisticsPresenter(this, repository)
@@ -79,12 +112,11 @@ class StatisticsFragment : BaseFragment(), StatisticsContract.View {
         context?.let { myDialog = LoadingDialog(it) }
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun updateNewestTime(time: String) {
-        val input = SimpleDateFormat(INPUT_TIME_FORMAT)
+        val input = SimpleDateFormat(INPUT_TIME_FORMAT, Locale.getDefault())
         input.timeZone = TimeZone.getTimeZone(ID_TIMEZONE)
 
-        val output = SimpleDateFormat(OUTPUT_TIME_FORMAT)
+        val output = SimpleDateFormat(OUTPUT_TIME_FORMAT, Locale.getDefault())
 
         var date: Date? = null
         try {
@@ -95,6 +127,18 @@ class StatisticsFragment : BaseFragment(), StatisticsContract.View {
 
         input.timeZone = TimeZone.getDefault()
         if (date != null) textViewUpdateTime.text = output.format(date)
+    }
+
+    private fun allowDisplayNotification() {
+        isAllowNotification = if (isAllowNotification) {
+            imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_off_white_24dp)
+            presenter?.updateNotification(false)
+            false
+        } else {
+            imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_white_24dp)
+            presenter?.updateNotification(true)
+            true
+        }
     }
 
     companion object {

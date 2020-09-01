@@ -3,7 +3,7 @@ package com.sunasterisk.anticovid_19.data.resource.remote
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.data.resource.CovidDataSource
-import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallBack
+import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallback
 import com.sunasterisk.anticovid_19.data.resource.remote.util.RemoteAsyncTask
 import com.sunasterisk.anticovid_19.utils.LinkConst.COVID_API
 import com.sunasterisk.anticovid_19.utils.NameConst.COUNTRIES
@@ -18,13 +18,13 @@ import java.net.URL
 
 class CovidRemoteDataSource : CovidDataSource.Remote {
 
-    override fun getCountryInformation(callback: OnDataLoadCallBack<List<Country>>) {
+    override fun getCountryInformation(callback: OnDataLoadCallback<List<Country>>) {
         RemoteAsyncTask(callback) {
             getCountryInformation()
         }.execute(COVID_API)
     }
 
-    override fun getGlobalInformation(callback: OnDataLoadCallBack<Global>) {
+    override fun getGlobalInformation(callback: OnDataLoadCallback<Global>) {
         RemoteAsyncTask(callback) {
             getGlobalInformation()
         }.execute(COVID_API)
