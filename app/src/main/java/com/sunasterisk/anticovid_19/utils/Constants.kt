@@ -24,3 +24,8 @@ object TimeConst {
     const val OUTPUT_TIME_FORMAT = "HH:mm dd/MM/yyyy"
     const val ID_TIMEZONE = "UTC"
 }
+
+object PreferencesConst {
+    const val PREFS_NAME = "PREFS"
+    const val PREFS_IS_ALLOW_NOTIFICATION = "PREFS_IS_ALLOW_NOTIFICATION"
+}

@@ -5,7 +5,7 @@ import com.sunasterisk.anticovid_19.R
 import java.lang.Exception
 
 class RemoteAsyncTask<T>(
-    private val callBack: OnDataLoadCallBack<T>,
+    private val callBack: OnDataLoadCallback<T>,
     private val handle: (String) -> T
 ) : AsyncTask<String, Unit, T?>() {
 

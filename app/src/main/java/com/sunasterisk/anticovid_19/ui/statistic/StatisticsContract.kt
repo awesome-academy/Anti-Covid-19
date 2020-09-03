@@ -10,10 +10,14 @@ interface StatisticsContract {
         fun showInformationInWord(global: Global)
         fun showInformationInVietNam(country: Country, newestTime: String)
         fun showError(error: String)
+        fun showMessage(message: String)
+        fun showNotification(isAllow: Boolean)
     }
 
     interface Presenter : BasePresenter {
         fun getInformationInVietnNam()
         fun getInformationInWorld()
+        fun updateNotification(isAllowNotification: Boolean)
+        fun checkNotification()
     }
 }

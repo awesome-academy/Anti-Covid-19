@@ -3,6 +3,7 @@
 
     <string name="error_parse_json">Type not supported</string>
     <string name="error_get_data_api">First param should not be null, or you forgot passing one</string>
+    <string name="error_cash_class">Class not support</string>
 
     <string name="radio_button_vietnamese">Vietnamese</string>
     <string name="radio_button_worlds">Worlds</string>
@@ -20,4 +21,7 @@
     <string name="title_statistics">Statistics</string>
     <string name="title_home">Home</string>
     <string name="title_news">News</string>
+
+    <string name="msg_notification_on">You have turned on notifications</string>
+    <string name="msg_notification_off">You have turned off notification</string>
 </resources>
