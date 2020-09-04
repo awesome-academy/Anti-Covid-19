@@ -8,7 +8,7 @@ import com.sunasterisk.anticovid_19.data.model.Global
 interface StatisticsContract {
     interface View : BaseView {
         fun showInformationInWord(global: Global)
-        fun showInformationInVietNam(country: Country, newestTime: String)
+        fun showInformationCountry(country: Country)
         fun showError(error: String)
         fun showMessage(message: String)
         fun showNotification(isAllow: Boolean)

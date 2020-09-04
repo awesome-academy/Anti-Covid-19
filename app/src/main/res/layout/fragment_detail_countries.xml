@@ -50,6 +50,7 @@
                 android:layout_height="0dp"
                 android:background="@drawable/edt_search_background"
                 android:hint="@string/text_hint_search_country"
+                android:imeOptions="actionSearch"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
