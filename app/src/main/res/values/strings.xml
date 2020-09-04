@@ -22,6 +22,7 @@
     <string name="text_plus_information">+%d</string>
     <string name="text_sort">Sort</string>
     <string name="text_hint_search_country">Search country…</string>
+    <string name="text_country_code">(%s)</string>
 
     <string name="title_statistics">Statistics</string>
     <string name="title_home">Home</string>

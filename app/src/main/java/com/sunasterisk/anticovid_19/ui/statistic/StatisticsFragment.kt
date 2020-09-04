@@ -6,13 +6,10 @@ import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.data.model.Global
-import com.sunasterisk.anticovid_19.data.resource.CovidRepository
-import com.sunasterisk.anticovid_19.data.resource.local.CovidLocalDataSource
-import com.sunasterisk.anticovid_19.data.resource.local.dao.InformationDaoImpl
-import com.sunasterisk.anticovid_19.data.resource.local.db.MyDatabase
-import com.sunasterisk.anticovid_19.data.resource.remote.CovidRemoteDataSource
+import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
-import com.sunasterisk.anticovid_19.utils.SharedPreferencesHelper
+import com.sunasterisk.anticovid_19.ui.main.MainActivity
+import com.sunasterisk.anticovid_19.utils.RepositoryUtil
 import com.sunasterisk.anticovid_19.utils.TimeConst.ID_TIMEZONE
 import com.sunasterisk.anticovid_19.utils.TimeConst.INPUT_TIME_FORMAT
 import com.sunasterisk.anticovid_19.utils.TimeConst.OUTPUT_TIME_FORMAT
@@ -28,7 +25,7 @@ class StatisticsFragment : BaseFragment(),
 
     private var presenter: StatisticsPresenter? = null
     private var isAllowNotification = false
-    private lateinit var myDialog: LoadingDialog
+    private var myDialog: LoadingDialog? = null
 
     override val layoutResource: Int
         get() = R.layout.fragment_statistics
@@ -42,6 +39,7 @@ class StatisticsFragment : BaseFragment(),
     override fun initActions() {
         radioGroupToggleInformation.setOnCheckedChangeListener(this)
         imageButtonNotification.setOnClickListener { allowDisplayNotification() }
+        textViewSeeDetail.setOnClickListener { showFragment() }
     }
 
     override fun showInformationInWord(global: Global) = with(global) {
@@ -82,9 +80,13 @@ class StatisticsFragment : BaseFragment(),
         }
     }
 
-    override fun showLoading() = myDialog.show()
+    override fun showLoading() {
+        myDialog?.show()
+    }
 
-    override fun hideLoading() = myDialog.hide()
+    override fun hideLoading() {
+        myDialog?.hide()
+    }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when (checkedId) {
@@ -95,17 +97,8 @@ class StatisticsFragment : BaseFragment(),
 
     private fun initPresenter() {
         val context = context ?: return
-        val myDatabase = MyDatabase.getInstance(context)
-        val preferences = SharedPreferencesHelper.getInstance(context)
-        val local =
-            CovidLocalDataSource.getInstance(
-                InformationDaoImpl.getInstance(myDatabase),
-                preferences
-            )
-        val remote = CovidRemoteDataSource()
-        val repository = CovidRepository.getInstance(remote, local)
+        val repository = RepositoryUtil.getRepository(context)
         presenter = StatisticsPresenter(this, repository)
-        myDialog = LoadingDialog(context)
     }
 
     private fun initDialog() {
@@ -139,6 +132,13 @@ class StatisticsFragment : BaseFragment(),
             presenter?.updateNotification(true)
             true
         }
+    }
+
+    private fun showFragment() {
+        (activity as MainActivity).supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, DetailCountriesFragment.getInstance())
+            .commit()
     }
 
     companion object {
