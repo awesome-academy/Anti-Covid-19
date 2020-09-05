@@ -20,19 +20,16 @@ class StatisticsPresenter(
 
     override fun getInformationInVietnNam() {
         view.showLoading()
-        repository.getCountryInformation(object : OnDataLoadCallback<List<Country>>{
+        repository.getCountryInformation(object : OnDataLoadCallback<List<Country>> {
             override fun onSuccess(data: List<Country>) {
-                for (i in data.indices) {
-                    if (data[i].country == VIET_NAM) {
-                        view.showInformationInVietNam(data[i], data[i].date)
-                        break
-                    }
-                }
+                data.firstOrNull {
+                    it.country == VIET_NAM
+                }?.let(view::showInformationCountry)
                 view.hideLoading()
             }
 
             override fun onFail(exception: Exception) {
-                view.showError(exception.toString())
+                view.showError(exception.message.toString())
                 view.hideLoading()
             }
         })

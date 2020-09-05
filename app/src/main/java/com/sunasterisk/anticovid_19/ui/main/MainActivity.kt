@@ -19,7 +19,7 @@ class MainActivity : BaseActivity() {
     private val onBottomNavigation =
         BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menuStatistics -> openFragment(StatisticsFragment.getInstance())
+                R.id.menuStatistics -> openFragment(StatisticsFragment())
             }
             true
         }

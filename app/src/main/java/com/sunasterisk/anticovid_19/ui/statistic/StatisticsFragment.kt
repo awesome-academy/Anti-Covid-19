@@ -1,7 +1,9 @@
 package com.sunasterisk.anticovid_19.ui.statistic
 
+import android.os.Bundle
 import android.view.View
 import android.widget.RadioGroup
+import androidx.core.os.bundleOf
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Country
@@ -25,15 +27,33 @@ class StatisticsFragment : BaseFragment(),
 
     private var presenter: StatisticsPresenter? = null
     private var isAllowNotification = false
+    private var isVietNamCountry = true
+    private var country: Country? = null
     private var myDialog: LoadingDialog? = null
 
     override val layoutResource: Int
         get() = R.layout.fragment_statistics
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            country = it.getParcelable(BUNDLE_COUNTRY)
+            isVietNamCountry = it.getBoolean(BUNDLE_IS_VIETNAM)
+        }
+    }
+
     override fun initData() {
         initPresenter()
         initDialog()
-        if (radioButtonVietnamese.isChecked) presenter?.start()
+        if (isVietNamCountry) {
+            presenter?.start()
+            return
+        }
+        country?.let {
+            showInformationCountry(it)
+            radioButtonWorld.visibility = View.GONE
+            radioButtonVietnamese.text = it.country
+        }
     }
 
     override fun initActions() {
@@ -52,7 +72,7 @@ class StatisticsFragment : BaseFragment(),
         textViewSeeDetail.visibility = View.VISIBLE
     }
 
-    override fun showInformationInVietNam(country: Country, newestTime: String) = with(country) {
+    override fun showInformationCountry(country: Country) = with(country) {
         textViewTotalInfected.text = totalConfirmed.toString()
         textViewTotalDeath.text = totalDeaths.toString()
         textViewTotalRecovered.text = totalRecovered.toString()
@@ -60,7 +80,7 @@ class StatisticsFragment : BaseFragment(),
         textViewNewDeath.text = getString(R.string.text_plus_information, newDeaths)
         textViewNewRecovered.text = getString(R.string.text_plus_information, newRecovered)
         textViewSeeDetail.visibility = View.INVISIBLE
-        updateNewestTime(newestTime)
+        updateNewestTime(country.date)
     }
 
     override fun showError(error: String) {
@@ -142,6 +162,14 @@ class StatisticsFragment : BaseFragment(),
     }
 
     companion object {
-        fun getInstance() = StatisticsFragment()
+        private const val BUNDLE_COUNTRY = "BUNDLE_COUNTRY"
+        private const val BUNDLE_IS_VIETNAM = "BUNDLE_IS_VIETNAM"
+        fun newInstance(country: Country, isVietNamCountry: Boolean) =
+            StatisticsFragment().apply {
+                arguments = bundleOf(
+                    BUNDLE_COUNTRY to country,
+                    BUNDLE_IS_VIETNAM to isVietNamCountry
+                )
+            }
     }
 }
