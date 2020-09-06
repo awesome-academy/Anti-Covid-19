@@ -14,5 +14,6 @@ interface DetailCountriesContract {
     interface Presenter: BasePresenter {
         fun getCountryInformation()
         fun searchCountries(value: String)
+        fun sortCountries(key: String, isDescending: Boolean)
     }
 }
