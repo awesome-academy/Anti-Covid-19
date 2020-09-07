@@ -29,4 +29,5 @@
     <string name="title_home">Home</string>
     <string name="title_news">News</string>
     <string name="title_detail_counties_screen">Detail Countries</string>
+    <string name="title_news_screen">News</string>
 </resources>
