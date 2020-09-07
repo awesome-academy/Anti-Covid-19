@@ -9,7 +9,6 @@ import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_CONFIRMED
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_DEATHS
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_RECOVERED
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 
 @Parcelize
 data class Country(
@@ -23,7 +22,7 @@ data class Country(
     val newRecovered: Int,
     val totalRecovered: Int,
     val date: String,
-    val premium: @RawValue JSONObject
+    val premium: String
 ) : Parcelable {
     constructor(jsonObject: JSONObject) : this(
         jsonObject.getString(COUNTRY),
@@ -36,7 +35,7 @@ data class Country(
         jsonObject.getInt(NEW_RECOVERED),
         jsonObject.getInt(TOTAL_RECOVERED),
         jsonObject.getString(DATE),
-        jsonObject.getJSONObject(PREMIUM)
+        jsonObject.getJSONObject(PREMIUM).toString()
     )
 
     companion object {

@@ -11,13 +11,11 @@ import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
 import com.sunasterisk.anticovid_19.ui.statistic.StatisticsFragment
+import com.sunasterisk.anticovid_19.utils.*
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_CONFIRMED
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_DEATHS
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_RECOVERED
 import com.sunasterisk.anticovid_19.utils.NameConst.VIET_NAM
-import com.sunasterisk.anticovid_19.utils.RepositoryUtil
-import com.sunasterisk.anticovid_19.utils.setLeftDrawable
-import com.sunasterisk.anticovid_19.utils.showToast
 import kotlinx.android.synthetic.main.fragment_detail_countries.*
 
 class DetailCountriesFragment :
@@ -30,6 +28,7 @@ class DetailCountriesFragment :
     private var presenter: DetailCountriesPresenter? = null
     private val adapter = DetailCountriesAdapter()
     private var myDialog: LoadingDialog? = null
+    private var isConnection = false
     private var stateButton = 0
 
     override val layoutResource: Int
@@ -39,6 +38,10 @@ class DetailCountriesFragment :
         initAdapter()
         initPresenter()
         initDialog()
+        if (!isConnection) {
+            view?.make(getString(R.string.msg_connection_fail))
+            return
+        }
         presenter?.start()
     }
 
@@ -77,11 +80,16 @@ class DetailCountriesFragment :
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            R.id.buttonSearch -> searchCountries()
-            R.id.textViewInfected -> sortCountries(TOTAL_CONFIRMED)
-            R.id.textViewDeath -> sortCountries(TOTAL_DEATHS)
-            R.id.textViewRecovered -> sortCountries(TOTAL_RECOVERED)
+        if (isConnection) {
+            when (view.id) {
+                R.id.buttonSearch -> searchCountries()
+                R.id.textViewInfected -> sortCountries(TOTAL_CONFIRMED)
+                R.id.textViewDeath -> sortCountries(TOTAL_DEATHS)
+                R.id.textViewRecovered -> sortCountries(TOTAL_RECOVERED)
+            }
+        } else {
+            view.make(getString(R.string.msg_connection_fail))
+            hideKeyBroad()
         }
     }
 
@@ -97,6 +105,7 @@ class DetailCountriesFragment :
         val context = context ?: return
         val repository = RepositoryUtil.getRepository(context)
         presenter = DetailCountriesPresenter(this, repository)
+        isConnection = NetworkUtil.isConnection(context)
     }
 
     private fun initDialog() {
@@ -118,6 +127,7 @@ class DetailCountriesFragment :
         val value = editTextSearch.text.toString()
         presenter?.searchCountries(value)
         hideKeyBroad()
+        editTextSearch.text.clear()
     }
 
     private fun hideKeyBroad() {
