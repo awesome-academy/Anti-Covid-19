@@ -5,6 +5,7 @@ import android.content.Intent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseActivity
+import com.sunasterisk.anticovid_19.ui.news.NewsFragment
 import com.sunasterisk.anticovid_19.ui.statistic.StatisticsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,6 +21,7 @@ class MainActivity : BaseActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuStatistics -> openFragment(StatisticsFragment())
+                R.id.menuNews -> openFragment(NewsFragment())
             }
             true
         }

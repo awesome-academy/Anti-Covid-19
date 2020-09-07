@@ -155,11 +155,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_36"
         android:layout_marginEnd="@dimen/dp_36"
-        android:drawableEnd="@drawable/ic_navigate_next_green_24dp"
         android:gravity="center"
         android:text="@string/text_see_detail"
         android:textColor="@color/colorAccent"
         android:visibility="invisible"
+        app:drawableEndCompat="@drawable/ic_navigate_next_green_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupToggleInformation" />
 
@@ -222,7 +222,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textViewInfected"
         app:layout_constraintEnd_toStartOf="@+id/textViewTotalDeath"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="@+id/viewStatistics"
         app:layout_constraintTop_toBottomOf="@+id/textViewNewInfected" />
 
