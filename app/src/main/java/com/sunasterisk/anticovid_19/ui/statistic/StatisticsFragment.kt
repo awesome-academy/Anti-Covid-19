@@ -11,10 +11,12 @@ import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
 import com.sunasterisk.anticovid_19.ui.main.MainActivity
+import com.sunasterisk.anticovid_19.utils.NetworkUtil
 import com.sunasterisk.anticovid_19.utils.RepositoryUtil
 import com.sunasterisk.anticovid_19.utils.TimeConst.ID_TIMEZONE
 import com.sunasterisk.anticovid_19.utils.TimeConst.INPUT_TIME_FORMAT
 import com.sunasterisk.anticovid_19.utils.TimeConst.OUTPUT_TIME_FORMAT
+import com.sunasterisk.anticovid_19.utils.make
 import com.sunasterisk.anticovid_19.utils.showToast
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.text.ParseException
@@ -28,6 +30,7 @@ class StatisticsFragment : BaseFragment(),
     private var presenter: StatisticsPresenter? = null
     private var isAllowNotification = false
     private var isVietNamCountry = true
+    private var isConnection = false
     private var country: Country? = null
     private var myDialog: LoadingDialog? = null
 
@@ -45,11 +48,16 @@ class StatisticsFragment : BaseFragment(),
     override fun initData() {
         initPresenter()
         initDialog()
+        if (!isConnection) {
+            view?.make(getString(R.string.msg_connection_fail))
+            return
+        }
         if (isVietNamCountry) {
             presenter?.start()
             return
         }
         country?.let {
+            presenter?.checkNotification()
             showInformationCountry(it)
             radioButtonWorld.visibility = View.GONE
             radioButtonVietnamese.text = it.country
@@ -109,9 +117,13 @@ class StatisticsFragment : BaseFragment(),
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when (checkedId) {
-            R.id.radioButtonVietnamese -> presenter?.getInformationInVietnNam()
-            R.id.radioButtonWorld -> presenter?.getInformationInWorld()
+        if (isConnection) {
+            when (checkedId) {
+                R.id.radioButtonVietnamese -> presenter?.getInformationInVietnNam()
+                R.id.radioButtonWorld -> presenter?.getInformationInWorld()
+            }
+        } else {
+            group?.make(getString(R.string.msg_connection_fail))
         }
     }
 
@@ -119,6 +131,7 @@ class StatisticsFragment : BaseFragment(),
         val context = context ?: return
         val repository = RepositoryUtil.getRepository(context)
         presenter = StatisticsPresenter(this, repository)
+        isConnection = NetworkUtil.isConnection(context)
     }
 
     private fun initDialog() {
