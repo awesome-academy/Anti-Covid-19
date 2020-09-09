@@ -1,9 +1,6 @@
 package com.sunasterisk.anticovid_19.data.resource
 
-import com.sunasterisk.anticovid_19.data.model.Country
-import com.sunasterisk.anticovid_19.data.model.Global
-import com.sunasterisk.anticovid_19.data.model.Information
-import com.sunasterisk.anticovid_19.data.model.News
+import com.sunasterisk.anticovid_19.data.model.*
 import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallback
 
 class CovidRepository private constructor(
@@ -37,6 +34,16 @@ class CovidRepository private constructor(
 
     override fun updateNotification(isAllowNotification: Boolean) {
         local.updateNotification(isAllowNotification)
+    }
+
+    override fun getSymptoms(): List<Document> = local.getSymptoms()
+
+    override fun getPrevents(): List<Document> = local.getPrevents()
+
+    override fun getLanguage(): Boolean = local.getLanguage()
+
+    override fun updateLanguage(isVietnamese: Boolean) {
+        local.updateLanguage(isVietnamese)
     }
 
     companion object {

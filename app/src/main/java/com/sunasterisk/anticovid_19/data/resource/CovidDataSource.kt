@@ -1,9 +1,6 @@
 package com.sunasterisk.anticovid_19.data.resource
 
-import com.sunasterisk.anticovid_19.data.model.Country
-import com.sunasterisk.anticovid_19.data.model.Global
-import com.sunasterisk.anticovid_19.data.model.Information
-import com.sunasterisk.anticovid_19.data.model.News
+import com.sunasterisk.anticovid_19.data.model.*
 import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallback
 
 interface CovidDataSource {
@@ -13,6 +10,10 @@ interface CovidDataSource {
         fun updateInformation(information: Information)
         fun getNotification(): Boolean
         fun updateNotification(isAllowNotification: Boolean)
+        fun getSymptoms(): List<Document>
+        fun getPrevents(): List<Document>
+        fun getLanguage(): Boolean
+        fun updateLanguage(isVietnamese: Boolean)
     }
 
     interface Remote {
