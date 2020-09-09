@@ -19,6 +19,11 @@ object NameConst {
     const val COVID = "Covid-19"
     const val ITEM = "item"
     const val DESCRIPTION = "description"
+    const val HEADACHE = "Headache"
+    const val COUGH = "Cough"
+    const val FEVER = "Fever"
+    const val WEAR_MASH = "Wear face mask"
+    const val WASH_HANDS = "Wash your hand"
 }
 
 object LinkConst {
@@ -36,4 +41,5 @@ object TimeConst {
 object PreferencesConst {
     const val PREFS_NAME = "PREFS"
     const val PREFS_IS_ALLOW_NOTIFICATION = "PREFS_IS_ALLOW_NOTIFICATION"
+    const val PREFS_IS_VIETNAMESE_LANGUAGE = "PREFS_IS_VIETNAMESE_LANGUAGE"
 }
