@@ -43,3 +43,9 @@ object PreferencesConst {
     const val PREFS_IS_ALLOW_NOTIFICATION = "PREFS_IS_ALLOW_NOTIFICATION"
     const val PREFS_IS_VIETNAMESE_LANGUAGE = "PREFS_IS_VIETNAMESE_LANGUAGE"
 }
+
+object FragmentConst {
+    const val BUNDLE_ACTION = "BUNDLE_ACTION"
+    const val BUNDLE_NAME_TAB = "BUNDLE_NAME_TAB"
+    const val BUNDLE_SHOULD_ADD = "BUNDLE_SHOULD_ADD"
+}
