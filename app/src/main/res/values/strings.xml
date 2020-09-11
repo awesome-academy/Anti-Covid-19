@@ -32,10 +32,14 @@
     <string name="text_symptoms">Symptoms</string>
     <string name="text_prevention_tips">Prevention tips</string>
     <string name="text_are_you_fill_sick">Are you fill sick?</string>
+    <string name="text_head_notification">Have new %d infected</string>
+    <string name="text_body_notification">, %d death</string>
+    <string name="text_end_notification">, %d recovered in Viet Nam</string>
 
     <string name="title_statistics">Statistics</string>
     <string name="title_home">Home</string>
     <string name="title_news">News</string>
     <string name="title_detail_counties_screen">Detail Countries</string>
     <string name="title_news_screen">News</string>
+    <string name="title_notification">Update</string>
 </resources>

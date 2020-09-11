@@ -11,13 +11,10 @@ import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
 import com.sunasterisk.anticovid_19.ui.main.MainActivity
-import com.sunasterisk.anticovid_19.utils.NetworkUtil
-import com.sunasterisk.anticovid_19.utils.RepositoryUtil
+import com.sunasterisk.anticovid_19.utils.*
 import com.sunasterisk.anticovid_19.utils.TimeConst.ID_TIMEZONE
 import com.sunasterisk.anticovid_19.utils.TimeConst.INPUT_TIME_FORMAT
 import com.sunasterisk.anticovid_19.utils.TimeConst.OUTPUT_TIME_FORMAT
-import com.sunasterisk.anticovid_19.utils.make
-import com.sunasterisk.anticovid_19.utils.showToast
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -102,6 +99,7 @@ class StatisticsFragment : BaseFragment(),
     override fun showNotification(isAllow: Boolean) {
         isAllowNotification = isAllow
         if (isAllowNotification) {
+            context?.let { AlarmUtil.create(it) }
             imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_white_24dp)
         } else {
             imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_off_white_24dp)
@@ -113,7 +111,7 @@ class StatisticsFragment : BaseFragment(),
     }
 
     override fun hideLoading() {
-        myDialog?.hide()
+        myDialog?.dismiss()
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -156,11 +154,14 @@ class StatisticsFragment : BaseFragment(),
     }
 
     private fun allowDisplayNotification() {
+        val context = context ?: return
         isAllowNotification = if (isAllowNotification) {
+            AlarmUtil.cancel(context)
             imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_off_white_24dp)
             presenter?.updateNotification(false)
             false
         } else {
+            AlarmUtil.create(context)
             imageButtonNotification.setBackgroundResource(R.drawable.ic_notifications_white_24dp)
             presenter?.updateNotification(true)
             true

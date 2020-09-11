@@ -3,6 +3,7 @@ package com.sunasterisk.anticovid_19.ui.statistic
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.data.model.Global
+import com.sunasterisk.anticovid_19.data.model.Information
 import com.sunasterisk.anticovid_19.data.resource.CovidRepository
 import com.sunasterisk.anticovid_19.data.resource.remote.util.OnDataLoadCallback
 import com.sunasterisk.anticovid_19.utils.NameConst.VIET_NAM
@@ -24,7 +25,10 @@ class StatisticsPresenter(
             override fun onSuccess(data: List<Country>) {
                 data.firstOrNull {
                     it.country == VIET_NAM
-                }?.let(view::showInformationCountry)
+                }?.let { country ->
+                    view.showInformationCountry(country)
+                    updateDatabase(country)
+                }
                 view.hideLoading()
             }
 
@@ -62,5 +66,18 @@ class StatisticsPresenter(
 
     override fun checkNotification() {
         view.showNotification(repository.getNotification())
+    }
+
+    private fun updateDatabase(country: Country) {
+        repository.addInformation(Information(
+            null,
+            country.newConfirmed,
+            country.totalConfirmed,
+            country.newDeaths,
+            country.totalDeaths,
+            country.newRecovered,
+            country.totalRecovered,
+            country.date
+        ))
     }
 }
