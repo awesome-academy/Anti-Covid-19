@@ -44,6 +44,6 @@ abstract class BaseFragment : Fragment() {
     protected abstract fun initActions()
 
     interface FragmentInteractionCallback {
-        fun onFragmentInteractionCallBack()
+        fun onFragmentInteractionCallBack(bundle: Bundle)
     }
 }
