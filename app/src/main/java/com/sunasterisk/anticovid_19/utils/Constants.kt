@@ -48,4 +48,11 @@ object FragmentConst {
     const val BUNDLE_ACTION = "BUNDLE_ACTION"
     const val BUNDLE_NAME_TAB = "BUNDLE_NAME_TAB"
     const val BUNDLE_SHOULD_ADD = "BUNDLE_SHOULD_ADD"
+    const val BUNDLE_COUNTRY = "BUNDLE_COUNTRY"
+    const val BUNDLE_IS_VIETNAM = "BUNDLE_IS_VIETNAM"
+    const val TAB_HOME = "tab_home"
+    const val TAB_STATISTICS = "tab_statistics"
+    const val TAB_NEWS = "tab_news"
+    const val TAB_DETAIL_COUNTRIES = "tab_detail_countries"
+    const val BUNDLE_IS_ROOT_FRAGMENT = "BUNDLE_IS_ROOT_FRAGMENT"
 }

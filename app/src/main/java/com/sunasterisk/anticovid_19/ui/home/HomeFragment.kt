@@ -2,10 +2,13 @@ package com.sunasterisk.anticovid_19.ui.home
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.widget.RadioGroup
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Document
+import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
+import com.sunasterisk.anticovid_19.utils.FragmentConst
 import com.sunasterisk.anticovid_19.utils.RepositoryUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -69,5 +72,12 @@ class HomeFragment :
 
     companion object {
         private const val HOT_LINE = "tel: 19009095"
+        const val ACTION_HOME_FRAGMENT = "ACTION_HOME_FRAGMENT"
+        fun newInstance(isRootFragment: Boolean) =
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(FragmentConst.BUNDLE_IS_ROOT_FRAGMENT, isRootFragment)
+                }
+            }
     }
 }

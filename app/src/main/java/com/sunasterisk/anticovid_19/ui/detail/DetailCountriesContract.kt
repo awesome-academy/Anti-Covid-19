@@ -8,7 +8,7 @@ interface DetailCountriesContract {
     interface View : BaseView {
         fun showCountries(countries: List<Country>)
         fun showError(error: String)
-        fun showMessage(message: String)
+        fun showMessage(message: Int)
     }
 
     interface Presenter: BasePresenter {

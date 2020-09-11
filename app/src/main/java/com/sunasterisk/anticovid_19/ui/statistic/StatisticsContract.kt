@@ -10,7 +10,7 @@ interface StatisticsContract {
         fun showInformationInWord(global: Global)
         fun showInformationCountry(country: Country)
         fun showError(error: String)
-        fun showMessage(message: String)
+        fun showMessage(message: Int)
         fun showNotification(isAllow: Boolean)
     }
 

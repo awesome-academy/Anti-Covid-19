@@ -1,14 +1,13 @@
 package com.sunasterisk.anticovid_19.ui.news
 
+import android.os.Bundle
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.News
+import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
 import com.sunasterisk.anticovid_19.ui.web.WebNewsActivity
-import com.sunasterisk.anticovid_19.utils.NetworkUtil
-import com.sunasterisk.anticovid_19.utils.RepositoryUtil
-import com.sunasterisk.anticovid_19.utils.make
-import com.sunasterisk.anticovid_19.utils.showToast
+import com.sunasterisk.anticovid_19.utils.*
 import kotlinx.android.synthetic.main.fragment_news.*
 
 class NewsFragment : BaseFragment(), NewsContract.View {
@@ -70,5 +69,15 @@ class NewsFragment : BaseFragment(), NewsContract.View {
 
     private fun initDialog() {
         context?.let { myDialog = LoadingDialog(it) }
+    }
+
+    companion object {
+        const val ACTION_NEWS_FRAGMENT = "ACTION_NEWS_FRAGMENT"
+        fun newInstance(isRootFragment: Boolean) =
+            NewsFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(FragmentConst.BUNDLE_IS_ROOT_FRAGMENT, isRootFragment)
+                }
+            }
     }
 }

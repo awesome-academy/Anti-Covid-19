@@ -25,7 +25,8 @@
     <string name="text_death">Death</string>
     <string name="text_recovered">Recovered</string>
     <string name="text_loading">Loading…</string>
-    <string name="text_plus_information">+%d</string>
+    <string name="text_information">%,d</string>
+    <string name="text_plus_information">+%,d</string>
     <string name="text_sort">Sort</string>
     <string name="text_hint_search_country">Search country…</string>
     <string name="text_country_code">(%s)</string>
