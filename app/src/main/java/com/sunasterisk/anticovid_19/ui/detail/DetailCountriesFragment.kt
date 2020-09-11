@@ -71,7 +71,7 @@ class DetailCountriesFragment :
     }
 
     override fun hideLoading() {
-        myDialog?.hide()
+        myDialog?.dismiss()
     }
 
     override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {

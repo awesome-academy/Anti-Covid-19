@@ -15,6 +15,10 @@ class MainActivity : BaseActivity() {
 
     override fun initComponents() {
         bottomNavigationView.setOnNavigationItemSelectedListener(onBottomNavigation)
+        if (intent.getBooleanExtra(EXTRA_OPEN_FROM_NOTIFICATION, false)) {
+            bottomNavigationView.selectedItemId = R.id.menuStatistics
+            return
+        }
         bottomNavigationView.selectedItemId = R.id.menuHome
     }
 
@@ -29,7 +33,14 @@ class MainActivity : BaseActivity() {
         }
 
     companion object {
+        private const val EXTRA_OPEN_FROM_NOTIFICATION = "EXTRA_OPEN_FROM_NOTIFICATION"
         fun getIntent(context: Context) =
             Intent(context, MainActivity::class.java)
+
+        fun getIntentFromNotification(context: Context) =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(EXTRA_OPEN_FROM_NOTIFICATION, true)
+            }
     }
 }
