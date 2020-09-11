@@ -42,7 +42,7 @@ class DetailCountriesPresenter(
                     country.slug.contains(value.toLowerCase(Locale.getDefault()))
                 }
                 if (newCountries.isNullOrEmpty()) {
-                    view.showMessage(R.string.msg_search_fail.toString())
+                    view.showMessage(R.string.msg_search_fail)
                 } else {
                     view.showCountries(newCountries)
                 }

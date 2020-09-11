@@ -61,7 +61,7 @@ class StatisticsPresenter(
         } else {
             R.string.msg_notification_off
         }
-        view.showMessage(msgId.toString())
+        view.showMessage(msgId)
     }
 
     override fun checkNotification() {

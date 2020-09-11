@@ -1,6 +1,7 @@
 package com.sunasterisk.anticovid_19.ui.detail
 
 import android.content.Context
+import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,8 +11,10 @@ import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
 import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
+import com.sunasterisk.anticovid_19.ui.main.MainActivity
 import com.sunasterisk.anticovid_19.ui.statistic.StatisticsFragment
 import com.sunasterisk.anticovid_19.utils.*
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_IS_ROOT_FRAGMENT
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_CONFIRMED
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_DEATHS
 import com.sunasterisk.anticovid_19.utils.ModelConst.TOTAL_RECOVERED
@@ -35,6 +38,7 @@ class DetailCountriesFragment :
         get() = R.layout.fragment_detail_countries
 
     override fun initData() {
+        initToolBar()
         initAdapter()
         initPresenter()
         initDialog()
@@ -51,6 +55,7 @@ class DetailCountriesFragment :
         textViewInfected.setOnClickListener(this)
         textViewDeath.setOnClickListener(this)
         textViewRecovered.setOnClickListener(this)
+        toolbarDetailScreen.setNavigationOnClickListener { (activity as MainActivity).onBackPressed() }
     }
 
     override fun showCountries(countries: List<Country>) {
@@ -62,8 +67,8 @@ class DetailCountriesFragment :
         context?.showToast(error)
     }
 
-    override fun showMessage(message: String) {
-        context?.showToast(message)
+    override fun showMessage(message: Int) {
+        context?.showToast(getString(message))
     }
 
     override fun showLoading() {
@@ -93,6 +98,11 @@ class DetailCountriesFragment :
         }
     }
 
+    private fun initToolBar() {
+        (activity as MainActivity).setSupportActionBar(toolbarDetailScreen)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun initAdapter() {
         recyclerViewCountries.adapter = adapter.apply {
             onItemClick = { item, position ->
@@ -113,14 +123,14 @@ class DetailCountriesFragment :
     }
 
     private fun showStatisticsFragment(country: Country, isVietNamCountry: Boolean) {
-        activity?.apply {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainer,
-                    StatisticsFragment.newInstance(country, isVietNamCountry)
-                )
-                .commit()
-        }
+        FragmentUtil.sendActionToActivity(
+            StatisticsFragment.ACTION_STATISTICS_FRAGMENT,
+            current,
+            true,
+            isVietNamCountry,
+            country,
+            interactionCallback
+        )
     }
 
     private fun searchCountries() {
@@ -128,6 +138,7 @@ class DetailCountriesFragment :
         presenter?.searchCountries(value)
         hideKeyBroad()
         editTextSearch.text.clear()
+        hintIcon()
     }
 
     private fun hideKeyBroad() {
@@ -201,6 +212,12 @@ class DetailCountriesFragment :
         private const val STATE_DEATH_DESC = 4
         private const val STATE_RECOVERED_ASC = 5
         private const val STATE_RECOVERED_DESC = 6
-        fun getInstance() = DetailCountriesFragment()
+        const val ACTION_DETAIL_FRAGMENT = "ACTION_DETAIL_FRAGMENT"
+        fun newInstance(isRootFragment: Boolean) =
+            DetailCountriesFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(BUNDLE_IS_ROOT_FRAGMENT, isRootFragment)
+                }
+            }
     }
 }

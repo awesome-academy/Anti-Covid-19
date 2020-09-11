@@ -26,9 +26,9 @@ class DetailCountriesViewHolder(
         itemView.run {
             textViewCountryName.text = country.country
             textViewCountryCode.text = context.getString(R.string.text_country_code, country.countryCode)
-            textViewInfected.text = country.totalConfirmed.toString()
-            textViewDeath.text = country.totalDeaths.toString()
-            textViewRecovered.text = country.totalRecovered.toString()
+            textViewInfected.text = context.getString(R.string.text_information, country.totalConfirmed)
+            textViewDeath.text = context.getString(R.string.text_information, country.totalDeaths)
+            textViewRecovered.text = context.getString(R.string.text_information, country.totalConfirmed)
         }
     }
 }

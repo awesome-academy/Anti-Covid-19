@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.sunasterisk.anticovid_19.R
 import com.sunasterisk.anticovid_19.base.BaseFragment
+import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_ACTION
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_COUNTRY
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_IS_VIETNAM
 import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_NAME_TAB
 import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_SHOULD_ADD
 import java.util.*
@@ -87,12 +90,16 @@ object FragmentUtil {
         action: String,
         tab: String?,
         shouldAdd: Boolean,
+        isVietNameCountry: Boolean,
+        country: Country?,
         fragmentInteractionCallback: BaseFragment.FragmentInteractionCallback?
     ) {
         val bundle = Bundle().apply {
             putString(BUNDLE_ACTION, action)
             putString(BUNDLE_NAME_TAB, tab)
             putBoolean(BUNDLE_SHOULD_ADD, shouldAdd)
+            putBoolean(BUNDLE_IS_VIETNAM, isVietNameCountry)
+            putParcelable(BUNDLE_COUNTRY, country)
         }
         fragmentInteractionCallback?.onFragmentInteractionCallBack(bundle)
     }

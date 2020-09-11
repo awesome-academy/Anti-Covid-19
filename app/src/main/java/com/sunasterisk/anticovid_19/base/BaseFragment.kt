@@ -46,4 +46,11 @@ abstract class BaseFragment : Fragment() {
     interface FragmentInteractionCallback {
         fun onFragmentInteractionCallBack(bundle: Bundle)
     }
+
+    companion object {
+        var current: String? = null
+        fun setCurrentTab(currentTab: String) {
+            current = currentTab
+        }
+    }
 }

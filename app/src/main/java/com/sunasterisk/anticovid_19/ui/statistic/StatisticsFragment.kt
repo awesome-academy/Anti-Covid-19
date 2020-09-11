@@ -10,8 +10,10 @@ import com.sunasterisk.anticovid_19.data.model.Country
 import com.sunasterisk.anticovid_19.data.model.Global
 import com.sunasterisk.anticovid_19.ui.detail.DetailCountriesFragment
 import com.sunasterisk.anticovid_19.ui.dialog.LoadingDialog
-import com.sunasterisk.anticovid_19.ui.main.MainActivity
 import com.sunasterisk.anticovid_19.utils.*
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_COUNTRY
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_IS_ROOT_FRAGMENT
+import com.sunasterisk.anticovid_19.utils.FragmentConst.BUNDLE_IS_VIETNAM
 import com.sunasterisk.anticovid_19.utils.TimeConst.ID_TIMEZONE
 import com.sunasterisk.anticovid_19.utils.TimeConst.INPUT_TIME_FORMAT
 import com.sunasterisk.anticovid_19.utils.TimeConst.OUTPUT_TIME_FORMAT
@@ -68,9 +70,9 @@ class StatisticsFragment : BaseFragment(),
     }
 
     override fun showInformationInWord(global: Global) = with(global) {
-        textViewTotalInfected.text = totalConfirmed.toString()
-        textViewTotalDeath.text = totalDeaths.toString()
-        textViewTotalRecovered.text = totalRecovered.toString()
+        textViewTotalInfected.text = getString(R.string.text_information, totalConfirmed)
+        textViewTotalDeath.text = getString(R.string.text_information, totalDeaths)
+        textViewTotalRecovered.text = getString(R.string.text_information, totalRecovered)
         textViewNewInfected.text = getString(R.string.text_plus_information, newConfirmed)
         textViewNewDeath.text = getString(R.string.text_plus_information, newDeaths)
         textViewNewRecovered.text = getString(R.string.text_plus_information, newRecovered)
@@ -78,9 +80,9 @@ class StatisticsFragment : BaseFragment(),
     }
 
     override fun showInformationCountry(country: Country) = with(country) {
-        textViewTotalInfected.text = totalConfirmed.toString()
-        textViewTotalDeath.text = totalDeaths.toString()
-        textViewTotalRecovered.text = totalRecovered.toString()
+        textViewTotalInfected.text = getString(R.string.text_information, totalConfirmed)
+        textViewTotalDeath.text = getString(R.string.text_information, totalDeaths)
+        textViewTotalRecovered.text = getString(R.string.text_information, totalRecovered)
         textViewNewInfected.text = getString(R.string.text_plus_information, newConfirmed)
         textViewNewDeath.text = getString(R.string.text_plus_information, newDeaths)
         textViewNewRecovered.text = getString(R.string.text_plus_information, newRecovered)
@@ -92,8 +94,8 @@ class StatisticsFragment : BaseFragment(),
         context?.showToast(error)
     }
 
-    override fun showMessage(message: String) {
-        context?.showToast(message)
+    override fun showMessage(message: Int) {
+        context?.showToast(getString(message))
     }
 
     override fun showNotification(isAllow: Boolean) {
@@ -169,20 +171,24 @@ class StatisticsFragment : BaseFragment(),
     }
 
     private fun showFragment() {
-        (activity as MainActivity).supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, DetailCountriesFragment.getInstance())
-            .commit()
+        FragmentUtil.sendActionToActivity(
+            DetailCountriesFragment.ACTION_DETAIL_FRAGMENT,
+            current,
+            true,
+            false,
+            null,
+            interactionCallback
+        )
     }
 
     companion object {
-        private const val BUNDLE_COUNTRY = "BUNDLE_COUNTRY"
-        private const val BUNDLE_IS_VIETNAM = "BUNDLE_IS_VIETNAM"
-        fun newInstance(country: Country, isVietNamCountry: Boolean) =
+        const val ACTION_STATISTICS_FRAGMENT = "ACTION_STATISTICS_FRAGMENT"
+        fun newInstance(country: Country?, isVietNamCountry: Boolean, isRootFragment: Boolean) =
             StatisticsFragment().apply {
                 arguments = bundleOf(
                     BUNDLE_COUNTRY to country,
-                    BUNDLE_IS_VIETNAM to isVietNamCountry
+                    BUNDLE_IS_VIETNAM to isVietNamCountry,
+                    BUNDLE_IS_ROOT_FRAGMENT to isRootFragment
                 )
             }
     }
